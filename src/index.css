@@ -3,8 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
 @layer base {
   :root {
     --background: 217 32% 17%;
@@ -43,6 +41,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Import fonts after tailwind directives but before other custom styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 @layer utilities {
   .animate-fade-in {
