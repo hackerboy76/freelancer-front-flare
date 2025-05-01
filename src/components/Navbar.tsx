@@ -1,71 +1,163 @@
 
-import React, { useState, useEffect } from 'react';
-import { Button } from "@/components/ui/button";
-import { Menu } from "lucide-react";
+import React, { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
+import { cn } from '@/lib/utils';
 
 const Navbar = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!mobileMenuOpen);
-  };
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 py-4 px-6 md:px-12 ${
-      isScrolled ? 'bg-background shadow-md' : 'bg-transparent'
-    }`}>
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
-        <a href="#" className="text-2xl font-semibold text-secondary">
-          Portfolio<span className="text-primary">.</span>
-        </a>
-        
-        <div className="hidden md:flex items-center space-x-8">
-          <ul className="flex space-x-8">
-            <li><a href="#about" className="text-muted-foreground hover:text-secondary transition-colors">About</a></li>
-            <li><a href="#skills" className="text-muted-foreground hover:text-secondary transition-colors">Skills</a></li>
-            <li><a href="#portfolio" className="text-muted-foreground hover:text-secondary transition-colors">Portfolio</a></li>
-            <li><a href="#services" className="text-muted-foreground hover:text-secondary transition-colors">Services</a></li>
-          </ul>
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 items-center justify-between">
+        <div className="flex items-center">
+          <a href="/" className="font-bold text-xl text-gradient mr-6">
+            SkillMarket
+          </a>
           
-          <Button asChild variant="outline" className="border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground">
-            <a href="#contact">Contact Me</a>
-          </Button>
+          <NavigationMenu className="hidden md:flex">
+            <NavigationMenuList>
+              <NavigationMenuItem>
+                <NavigationMenuLink href="#how-it-works" className={navigationMenuTriggerStyle()}>
+                  How It Works
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>Find Work</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                    <li>
+                      <NavigationMenuLink asChild>
+                        <a href="#jobs" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground">
+                          <div className="text-sm font-medium leading-none">Projects</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            Browse available projects and submit proposals
+                          </p>
+                        </a>
+                      </NavigationMenuLink>
+                    </li>
+                    <li>
+                      <NavigationMenuLink asChild>
+                        <a href="/contests" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground">
+                          <div className="text-sm font-medium leading-none">Contests</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            Participate in design contests and competitions
+                          </p>
+                        </a>
+                      </NavigationMenuLink>
+                    </li>
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>Find Talent</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                    <li>
+                      <NavigationMenuLink asChild>
+                        <a href="#freelancers" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground">
+                          <div className="text-sm font-medium leading-none">Browse Freelancers</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            Find skilled professionals for your projects
+                          </p>
+                        </a>
+                      </NavigationMenuLink>
+                    </li>
+                    <li>
+                      <NavigationMenuLink asChild>
+                        <a href="/post-project" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground">
+                          <div className="text-sm font-medium leading-none">Post a Project</div>
+                          <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                            Create a job posting to attract freelancers
+                          </p>
+                        </a>
+                      </NavigationMenuLink>
+                    </li>
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <NavigationMenuLink href="#" className={navigationMenuTriggerStyle()}>
+                  About
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+            </NavigationMenuList>
+          </NavigationMenu>
         </div>
         
-        <div className="md:hidden">
-          <Button variant="ghost" size="icon" onClick={toggleMobileMenu}>
-            <Menu className="h-6 w-6" />
-          </Button>
+        <div className="hidden md:flex items-center gap-4">
+          <Button variant="outline">Sign In</Button>
+          <Button>Join Now</Button>
         </div>
+        
+        <button
+          className="md:hidden"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            {isMenuOpen ? (
+              <>
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </>
+            ) : (
+              <>
+                <line x1="4" y1="12" x2="20" y2="12" />
+                <line x1="4" y1="6" x2="20" y2="6" />
+                <line x1="4" y1="18" x2="20" y2="18" />
+              </>
+            )}
+          </svg>
+        </button>
       </div>
-
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-background shadow-lg py-4">
-          <ul className="flex flex-col space-y-4 px-6">
-            <li><a href="#about" className="text-muted-foreground hover:text-secondary transition-colors block py-2" onClick={toggleMobileMenu}>About</a></li>
-            <li><a href="#skills" className="text-muted-foreground hover:text-secondary transition-colors block py-2" onClick={toggleMobileMenu}>Skills</a></li>
-            <li><a href="#portfolio" className="text-muted-foreground hover:text-secondary transition-colors block py-2" onClick={toggleMobileMenu}>Portfolio</a></li>
-            <li><a href="#services" className="text-muted-foreground hover:text-secondary transition-colors block py-2" onClick={toggleMobileMenu}>Services</a></li>
-            <li>
-              <Button asChild variant="outline" className="w-full border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground">
-                <a href="#contact" onClick={toggleMobileMenu}>Contact Me</a>
-              </Button>
-            </li>
-          </ul>
+      
+      {/* Mobile menu */}
+      {isMenuOpen && (
+        <div className="md:hidden bg-background border-b">
+          <div className="py-2">
+            <a href="#how-it-works" className="block px-4 py-2 hover:bg-accent">
+              How It Works
+            </a>
+            <a href="#jobs" className="block px-4 py-2 hover:bg-accent">
+              Find Work
+            </a>
+            <a href="#freelancers" className="block px-4 py-2 hover:bg-accent">
+              Find Talent
+            </a>
+            <a href="#" className="block px-4 py-2 hover:bg-accent">
+              About
+            </a>
+            <div className="border-t mt-2 pt-2">
+              <a href="#" className="block px-4 py-2 hover:bg-accent">
+                Sign In
+              </a>
+              <a href="#" className="block px-4 py-2 bg-secondary text-secondary-foreground mx-4 rounded text-center">
+                Join Now
+              </a>
+            </div>
+          </div>
         </div>
       )}
-    </nav>
+    </header>
   );
 };
 
